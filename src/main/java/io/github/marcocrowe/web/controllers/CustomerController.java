@@ -27,6 +27,7 @@ public class CustomerController {
 
         return TemplatePaths.CUSTOMER_DETAILS;
     }
+
     @GetMapping()
     public ModelAndView getCustomersPage() {
         var customers = customerService.findCustomers();
@@ -34,5 +35,11 @@ public class CustomerController {
         modelAndView.addObject("customers", customers);
 
         return modelAndView;
+    }
+
+    @GetMapping("/{customerId}/delete")
+    public String executeDeleteCustomer(@PathVariable("customerId") Integer customerId) {
+        customerService.deleteCustomerById(customerId);
+        return "redirect:/customers";
     }
 }

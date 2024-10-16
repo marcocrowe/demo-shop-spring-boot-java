@@ -33,4 +33,11 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public void deleteCustomerById(Integer customerId) {
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if(customerOptional.isEmpty())
+            throw new IllegalArgumentException("No such customer in the system for ."+ customerId);
+
+        customerRepository.delete(customerOptional.get());
+    }
 }

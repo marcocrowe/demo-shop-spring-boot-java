@@ -42,7 +42,7 @@ public class Customer  implements Serializable {
     @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Review> reviewList;
 }
