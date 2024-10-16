@@ -5,36 +5,43 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "product_id")
+    private Integer productId;
 
-    private String name;
+    @Column(name = "product_name")
+    private String productName;
 
     @Lob
+    @Column(name = "description")
     private String description;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "color")
-    private String color;
+    @Column(name = "colour")
+    private String colour;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    private List<Review> reviews;
+    private List<Review> reviewList;
 
 }
 

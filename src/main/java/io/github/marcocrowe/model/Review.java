@@ -1,6 +1,5 @@
 package io.github.marcocrowe.model;
 
-
 import java.io.Serializable;
 import java.util.Date;
 import jakarta.persistence.*;
@@ -21,26 +20,31 @@ public class Review implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "review_id")
+    private Integer reviewId;
 
-    @JoinColumn(name = "customer", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     @ManyToOne
     @ToString.Exclude
     private Customer customer;
 
-    @JoinColumn(name = "product", referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     @ManyToOne
     @ToString.Exclude
     private Product product;
 
+    @Column(name = "rating")
     private Integer rating;
 
     @Lob
+    @Column(name = "review_text")
     private String reviewText;
 
+    @Column(name = "review_date")
     @Temporal(TemporalType.DATE)
     private Date reviewDate;
 
-    private boolean isFlaggedSpam;
+    @Column(name = "flagged_as_spam")
+    private Boolean flaggedAsSpam;
 
 }
