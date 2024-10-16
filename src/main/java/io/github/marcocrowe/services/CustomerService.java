@@ -5,6 +5,7 @@ import io.github.marcocrowe.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -16,14 +17,18 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    public Optional<Customer> findCustomerById(Integer customerId)
+    {
+        return customerRepository.findById(customerId);
+    }
     public List<Customer> findCustomers()
     {
         return customerRepository.findAll();
     }
 
-    public void updateCustomer(Customer customer) throws Exception {
+    public void updateCustomer(Customer customer) throws IllegalArgumentException {
         if(customerRepository.findById(customer.getCustomerId()).isEmpty())
-            throw new Exception("No such customer in the system.");
+            throw new IllegalArgumentException("No such customer in the system for ."+ customer.getCustomerId());
 
         customerRepository.save(customer);
     }

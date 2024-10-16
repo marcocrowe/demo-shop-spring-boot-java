@@ -50,36 +50,59 @@
 <div class="container">
     <main>
         <h1>Demo Shop</h1>
-        <p>Welcome to the Demo Shop</p>#
-        <table aria-describedby="table-header"
-               class="table table-striped">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>e-mail</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>&nbsp;</th><!--View Details-->
-                <th>&nbsp;</th><!--Edit Details-->
-            </tr>
-            </thead>
-            <tbody>
-            <!--/*@thymesVar id="customers" type="java.util.List<io.github.marcocrowe.model.Customer>"*/-->
-            <tr th:each="customer : ${customers}">
-                <td th:text="${customer.customerId}"></td>
-                <td th:text="${customer.firstName} + ' ' + ${customer.lastName}"></td>
-                <td><a th:text="${customer.email}" th:href="@{'mailto:' + ${customer.email}}"></a></td>
-                <td th:text="${customer.address}"></td>
-                <td th:text="${customer.city}"></td>
+        <p>Welcome to the Demo Shop</p>
+        <!-- Customer Details Template -->
+        <!--/*@thymesVar id="customer" type="io.github.marcocrowe.model.Customer"*/-->
 
-                <td><a class="btn btn-primary"
-                       th:href="@{/customers/{id}/details(id=${customer.customerId})}">View Details</a></td>
-                <td><a class="btn btn-primary"
-                       th:href="@{/customers/{id}/edit(id=${customer.customerId})}">Edit Details</a></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Customer Details</h5>
+                <hr/>
+                <div class="row">
+                    <!-- First Name -->
+                    <div class="row">
+                        <div class="col-md-4"><label for="first-name">First Name:</label></div>
+                        <div class="col-md-8" id="first-name" th:text="${customer.firstName}"></div>
+                    </div>
+                    <!-- Last Name -->
+                    <div class="row">
+                        <div class="col-md-4"><label for="last-name">Last Name:</label></div>
+                        <div class="col-md-8" id="last-name" th:text="${customer.lastName}"></div>
+                    </div>
+                    <!-- Email -->
+                    <div class="row">
+                        <div class="col-md-4"><label for="email">Email:</label></div>
+                        <div class="col-md-8"><a id="email" th:href="'mailto:'+${customer.email}" th:text="${customer.email}"></a></div>
+                    </div>
+                    <!-- City -->
+                    <div class="row">
+                        <div class="col-md-4"><label for="city">City:</label></div>
+                        <div class="col-md-8" id="city" th:text="${customer.city}"></div>
+                    </div>
+                    <!-- Address -->
+                    <div class="row">
+                        <div class="col-md-4"><label for="address">Address:</label></div>
+                        <div class="col-md-8" id="address" th:text="${customer.address}"></div>
+                    </div>
+
+                    <!-- Reviews (if applicable) -->
+                    <div class="row" th:if="${customer.reviewList != null}">
+                        <div class="col-md-12"><h6>Reviews:</h6></div>
+                        <ul>
+                            <li th:each="review : ${customer.reviewList}" th:text="${review.reviewText}"></li>
+                        </ul>
+                    </div>
+
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <a class="btn btn-primary" th:href="@{/customers/{customerId}/edit(customerId=${customer.customerId})}">Edit Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 </div>
 <footer class="page-footer mt-auto">

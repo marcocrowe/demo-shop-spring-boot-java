@@ -1,8 +1,11 @@
 package io.github.marcocrowe.web.controllers;
 
+import io.github.marcocrowe.model.Customer;
 import io.github.marcocrowe.services.CustomerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,6 +18,15 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/{customerId}/details")
+    public String getCustomerDetailsView(@PathVariable("customerId") int customerId, Model model) {
+        Customer customer = customerService.findCustomerById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id: " + customerId));
+
+        model.addAttribute("customer", customer);
+
+        return TemplatePaths.CUSTOMER_DETAILS;
+    }
     @GetMapping()
     public ModelAndView getCustomersPage() {
         var customers = customerService.findCustomers();
