@@ -50,7 +50,11 @@
 <div class="container">
     <main>
         <h1>Demo Shop</h1>
-        <p>Welcome to the Demo Shop</p>#
+        <p>Welcome to the Demo Shop</p>
+        <div th:if="${message}" class="alert alert-success" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+
         <table aria-describedby="table-header"
                class="table table-striped">
             <thead>
