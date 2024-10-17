@@ -6,10 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,6 +40,15 @@ public class CustomerController {
         return TemplatePaths.CUSTOMER_EDIT;
     }
 
+    @GetMapping("/new")
+    public String getCustomerNewPage(Model model)
+    {
+        Customer customer = new Customer();
+        model.addAttribute("customer", customer);
+        return TemplatePaths.CUSTOMER_EDIT;
+    }
+
+
 
     @GetMapping()
     public ModelAndView getCustomersPage(Model model) {
@@ -65,6 +71,17 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
+    @PostMapping("/new")
+    public String executeInsertNewCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return TemplatePaths.CUSTOMER_EDIT;
+        }
+        System.out.println("Customer: " + customer.getCustomerId());
+        var newCustomer = customerService.createCustomer(customer);
+        System.out.println("New customer: " + newCustomer.getCustomerId());
+        redirectAttributes.addFlashAttribute("message", "Customer added successfully.");
+        return "redirect:/customers/%d/details".formatted(newCustomer.getCustomerId());
+    }
     @PostMapping("/{customerId}/edit")
     public String executeUpdateCustomer(@PathVariable("customerId") int customerId, @Valid Customer customer, BindingResult result, Model model) {
         if (result.hasErrors()) {
