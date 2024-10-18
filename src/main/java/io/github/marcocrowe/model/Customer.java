@@ -3,6 +3,8 @@ package io.github.marcocrowe.model;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class Customer  implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email address")
     @Column(name = "email")
     private String email;
 
